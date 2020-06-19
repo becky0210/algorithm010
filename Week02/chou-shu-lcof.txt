@@ -1,0 +1,45 @@
+public int nthUglyNumber(int n) {
+
+//        if(n==1) return 1;
+//        PriorityQueue<Long> q = new PriorityQueue();
+//        q.add(1l);
+//
+//        for(long i=1; i<n; i++) {
+//            long tmp = q.poll();
+//            while(!q.isEmpty() && q.peek()==tmp) tmp = q.poll();
+//
+//            q.add(tmp*2);
+//            q.add(tmp*3);
+//            q.add(tmp*5);
+//        }
+//        return q.poll().intValue();
+
+
+
+
+
+
+        int[] arr=new int[n];
+        arr[0]=1;
+        int idx2=0;int idx3=0;int idx5=0;
+        int f2=2;int f3=3;int f5=5;
+        for(int i=1;i<arr.length;i++){
+            int min = Math.min(Math.min(f2, f3), f5);
+            arr[i]=min;
+            if(f2==min){
+                f2=2*arr[++idx2];
+            }
+            if(f3==min){
+                f3=3*arr[++idx3];
+            }
+            if(f5==min){
+                f5=5*arr[++idx5];
+            }
+
+        }
+        return arr[n-1];
+
+
+    
+
+    }

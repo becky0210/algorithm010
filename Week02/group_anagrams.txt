@@ -1,0 +1,42 @@
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+
+//        HashMap<String,List<String>> map=new HashMap<String,List<String>>();
+// //        List<String> temp = null;
+//         for(int i=0;i< strs.length;i++){
+//             char[] chars = strs[i].toCharArray();
+//             Arrays.sort(chars);
+//             String s = String.valueOf(chars);
+//             System.out.print("s:"+s+"\n");
+//             if(map.containsKey(s)) {
+
+//                 System.out.print("====:"+map.get(s)+"=======\n");
+//                 System.out.println("append:"+strs[i]);
+//                 map.get(s).add(strs[i]);
+//             }
+//             else {
+//                 System.out.printf("add:" + strs[i]+"\n");
+//                 List<String> temp = new ArrayList<>();
+//                 temp.add(strs[i]);
+
+//                 map.put(s, temp);
+//             }
+
+//         }
+
+
+//         return new ArrayList<List<String>>(map.values());
+
+
+        HashMap<String,List<String>> map=new HashMap<String,List<String>>();
+        for(String s:strs){
+            char[] arr=new char[26];
+            char[] sArr=s.toCharArray();
+            for(char c:sArr) arr[c-'a']++;
+            String k=String.valueOf(arr);
+            if(!map.containsKey(k)) map.put(k,new ArrayList<>());
+            map.get(k).add(s);
+        }
+        return new ArrayList<List<String>>(map.values());
+}
+}

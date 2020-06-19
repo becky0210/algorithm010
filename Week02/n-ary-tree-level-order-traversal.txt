@@ -1,0 +1,56 @@
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public List<Node> children;
+
+    public Node() {}
+
+    public Node(int _val) {
+        val = _val;
+    }
+
+    public Node(int _val, List<Node> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+
+class Solution {
+    //    public List<List<Integer>> levelOrder(Node root) {
+//        if (root==null) return new ArrayList<List<Integer>>();
+//        List<List<Integer>> res=new LinkedList<>();
+//        Queue<Node> linkedList=new LinkedList<>();
+//        linkedList.offer(root);
+//        while(!linkedList.isEmpty()){
+//            List<Integer> currlevel=new LinkedList<>();
+//            int size=linkedList.size();
+//            for(int i=0;i<size;i++){
+//                root = linkedList.poll();
+//                currlevel.add(root.val);
+//                for (Node child : root.children)
+//                    linkedList.offer(child);
+//            }
+//            res.add(currlevel);
+//        }
+//        return res;
+//    }
+
+     public List<List<Integer>> levelOrder(Node root) {
+         return levelOrder(root,0,new ArrayList<>());
+      }
+    
+     public List<List<Integer>> levelOrder(Node root,int level,List<List<Integer>> res) {
+         if (root==null) return res;
+         List<Integer> objects = res.size() > level ? res.get(level) : new ArrayList<>();
+         objects.add(root.val);
+         if(res.size()<=level)
+             res.add(objects);
+         for(Node node:root.children)
+             levelOrder(node,level+1,res);
+         return res;
+
+         }
+    
+}

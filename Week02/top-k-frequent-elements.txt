@@ -1,0 +1,145 @@
+public  int[] topKFrequent(int[] nums, int k) {
+ //       HashMap<Integer,Integer> map=new HashMap<>();
+//        int[] res;
+//        Set<Integer> set=new HashSet<>();
+//        for (int num:nums){
+//            map.put(num,map.getOrDefault(num,0)+1);
+//        }
+//        Object[] objects = map.values().toArray();
+//        Arrays.sort(objects);
+//        int len=objects.length;
+//        for(int i=len-1;i>len-(k+1);i--){
+//            for(Map.Entry<Integer,Integer> e:map.entrySet())
+//                if(e.getValue()==objects[i]){
+//                    set.add(e.getKey());
+//                }
+//        }
+//        System.out.printf("set size:"+set.size()+"\n");
+//        int j=0;
+//        res=new int[set.size()];
+//        for(Integer item:set){
+//            res[j]=item;
+//            System.out.printf("set item:"+item+"\n");
+//            j++;
+//        }
+//        return res ;
+
+
+
+
+
+
+
+//           if(k==nums.length) return nums;
+//        List<Integer> list = new ArrayList<>();
+//        int[] res;
+//        HashMap<Integer, Integer> num_times = new HashMap<>();
+//        HashMap<Integer, Set<Integer>> times_num = new HashMap<>();
+//        for (int num : nums)
+//            num_times.put(num, num_times.getOrDefault(num, 0) + 1);
+//        Set<Integer> set = num_times.keySet();
+//
+//        for (int item : nums) {
+//            int key_freq=num_times.get(item);
+//            if (!times_num.containsKey(key_freq))
+//                times_num.put(key_freq, new HashSet<>());
+//            times_num.get(key_freq).add(item);
+//
+//        }
+//
+//        Set<Integer> set1 = times_num.keySet();
+//        int[] temp=new int[set1.size()];
+//        int t=0;
+//        for(Integer s:set1){
+//            temp[t++]=s;
+//        }
+//        int len_topKFreq=(k<temp.length?k:temp.length);
+//        System.out.printf("topkFreq size:"+len_topKFreq);
+//        int[] topKFreq = new int[len_topKFreq];
+//        Arrays.sort(temp);
+//        int tot_flg = 0;
+//        int len=temp.length;
+//        int freq_num=0;
+//        for (int a=0;a<len_topKFreq;a++) {
+//            topKFreq[freq_num++]=temp[temp.length-a-1];
+//        }
+//
+//
+//        List<Integer> topKList = new ArrayList<>();
+//        int num=0;
+//        int bigger=0;
+//        int topKListSize=0;
+//
+//        for (int j = 0; k-num>0; j++) {
+//            topKListSize=times_num.get(topKFreq[j]).size();
+//            topKList.addAll(times_num.get(topKFreq[j]));
+//            num += topKListSize;
+//
+//        }
+//        int z=0;
+//        int[] finalres=new int[topKList.size()];
+//        for(Integer item:topKList){
+//            finalres[z++]=item;
+//        }
+//        return finalres;
+
+
+
+
+
+
+
+//        HashMap<Integer,Integer> map=new HashMap<Integer,Integer>();
+//        PriorityQueue<Integer> pq=new PriorityQueue<>((v1,v2)->(map.get(v1)-map.get(v2)));
+//
+//        for(int num:nums)
+//            map.put(num,map.getOrDefault(num,0)+1);
+//        for(int key:map.keySet()) {
+//
+//            pq.add(key);
+//            if (pq.size() > k){
+//                pq.poll();
+//
+//            }
+//        }
+//        System.out.println("pq size:"+pq.size());
+//        int[] res=new int[k];
+//        int i=0;
+//        for (Integer integer : pq) {
+//            System.out.println("item in pq:"+integer);
+//            res[i++]=integer;
+//        }
+//
+//
+//        return res;
+
+
+
+
+        HashMap<Integer,Integer> map=new HashMap<Integer,Integer>();
+//        PriorityQueue<Integer> pq=new PriorityQueue<>((v1, v2)->(map.get(v1)-map.get(v2)));
+        List<Integer>[] bucket=new List[nums.length+1];
+        for(int num:nums)
+            map.put(num,map.getOrDefault(num,0)+1);
+        for(int key:map.keySet()) {
+            Integer freq = map.get(key);
+            if(bucket[freq]==null){
+                bucket[freq]=new ArrayList<>();
+            }
+            bucket[freq].add(key);
+        }
+        List<Integer> rs=new ArrayList<>();
+        for(int i =bucket.length-1;i>0 && rs.size()<k;i--) {
+            if(bucket[i]!=null)
+                rs.addAll(bucket[i]);
+        }
+        int[] finalrs=new int[rs.size()];
+        int idx=0;
+        for(Integer i:rs){
+            finalrs[idx++]=i;
+        }
+        return  finalrs;
+        
+
+
+    }
