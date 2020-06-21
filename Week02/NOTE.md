@@ -25,26 +25,26 @@ HashMap是线程不安全的。底层数据结构是数组+链表+红黑树
         -如果能找到（在树里或是链表里），则删除该节点返回该节点，不然返回null
 
 
-常用API:
+4. 常用API:
 
-size:返回健值对个数
+        -size:返回健值对个数
 
-isEmpty：判断是否为空，是返回true，否则返回false
+        -isEmpty：判断是否为空，是返回true，否则返回false
 
-get:返回特定键映射的值。如果没有映射关系对应这个键值返回null
+        -get:返回特定键映射的值。如果没有映射关系对应这个键值返回null
 
-containsKey:如果map包含关于特定键的映射关系返回true否则返回false
+        -containsKey:如果map包含关于特定键的映射关系返回true否则返回false
 
-put：把特定值和特定键映射起来放到map里，如果之前就存在这个特定键的值，老的值会被替代。如果没有映射对应这个键就返回null，不然就返回之前对应这个键的值。
+        -put：把特定值和特定键映射起来放到map里，如果之前就存在这个特定键的值，老的值会被替代。如果没有映射对应这个键就返回null，不然就返回之前对应这个键的值。
 
-remove:移除map里对于特定键的映射关系（如果存在的话）。如果不存在返回null，否则返回之前关联这个键的值
+        -remove:移除map里对于特定键的映射关系（如果存在的话）。如果不存在返回null，否则返回之前关联这个键的值
 
-containsValue:如果map中一个或多个键映射到这个值返回true。
+        -containsValue:如果map中一个或多个键映射到这个值返回true。
 
-keyset：返回包含在map里的键，以set的形式。
+        -keyset：返回包含在map里的键，以set的形式。
 
-values:返回包含在map里的值，以Collection形式返回。
+        -values:返回包含在map里的值，以Collection形式返回。
 
-entrySet：返回包含在map里的映射关系，存在set里
+        -entrySet：返回包含在map里的映射关系，存在set里
 
-getOrDefault:根据特定键返回映射到的值，如果没有特定键，则返回默认的值。
+        -getOrDefault:根据特定键返回映射到的值，如果没有特定键，则返回默认的值。
