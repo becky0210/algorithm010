@@ -1,0 +1,25 @@
+class Solution {
+
+  public List<List<Integer>> permuteUnique(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> res=new ArrayList<>();
+        backtrack(res,new ArrayList<>(),nums,new boolean[nums.length]);
+        return res;
+    }
+    
+    private void backtrack(List<List<Integer>> res,ArrayList<Integer> objects, int[] nums, boolean[] booleans) {
+        if(objects.size()==nums.length)
+            res.add(new ArrayList<Integer>(objects));
+        for(int i=0;i<nums.length;i++){
+            if((booleans[i] ) || (i>0 && nums[i]==nums[i-1] && !booleans[i-1]))
+                continue;
+            booleans[i]=true;
+            objects.add(nums[i]);
+            backtrack(res,objects,nums,booleans);
+
+            booleans[i]=false;
+            objects.remove(objects.size()-1);
+        }
+}
+}
+    
