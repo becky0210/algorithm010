@@ -1,0 +1,28 @@
+public solution{
+    private Map<Integer, Integer> indexMap;
+
+    public TreeNode myBuildTree(int[] preorder, int[] inorder, int i, int i1, int i2, int i3) {
+        if (i > i1) {
+            return null;
+        }
+
+        int inorder_root = indexMap.get(preorder[i]);
+        TreeNode root = new TreeNode(preorder[i]);
+
+        int size_left_subtree = inorder_root - i2;
+        root.left = myBuildTree(preorder, inorder, i + 1, i + size_left_subtree, i2, inorder_root - 1);
+        root.right = myBuildTree(preorder, inorder, i + size_left_subtree + 1, i1, inorder_root + 1, i3);
+        return root;
+    }
+
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        int n = preorder.length;
+        indexMap = new HashMap<Integer, Integer>();
+        for (int i = 0; i < n; i++) {
+            indexMap.put(inorder[i], i);
+        }
+        return myBuildTree(preorder, inorder, 0, n - 1, 0, n - 1);
+    }
+	
+	
+	}
