@@ -1,0 +1,54 @@
+class Solution {
+   public char[][] updateBoard(char[][] board, int[] click) {
+        int row = click[0];
+        int col = click[1];
+        if(board[row][col]=='M') {
+            board[row][col] = 'X';
+            return board;
+        }
+        dfs(board,row,col);
+        return board;
+
+    }
+	//数组dx里存着一个点周围8个方向（左上、正上、右上、正左、正右、左下、正下、右下）x轴的值
+    int[] dx={-1,0,1,-1,1,-1,0,1};
+	
+	//数组dx里存着一个点周围8个方向（左上、正上、右上、正左、正右、左下、正下、右下）y轴的值
+    int[] dy={1,1,1,0,0,-1,-1,-1};
+	
+	//如果一个点周围的雷数nums为0且这个点为B，则让周围8个方向上的点都为B，否则这个点存雷数量
+    private void dfs(char[][] board, int row, int col) {
+
+        if(row<0 || col<0 || row>=board.length || col>=board[0].length || board[row][col]!='E')
+            return ;
+        int nums=countNums(board,row,col);
+        if(nums==0){
+            board[row][col]='B';
+
+            for(int i=0;i<8;i++){
+                int row1=row+dx[i];
+                int col1=col+dy[i];
+                dfs(board,row1,col1);
+            }
+        }else{
+            board[row][col]=(char)('0'+nums);
+        }
+    }
+	
+	
+	//如果这个点周围8个方向上的点的值为M或者X，则雷数nums加1，返回这个点的雷数
+    private int countNums(char[][] board, int row, int col) {
+        int num=0;
+        for(int k=0;k<8;k++){
+
+            int row1=row+dx[k];
+            int col1=col+dy[k];
+            if(row1<0 || col1 <0 || row1>=board.length || col1>=board[0].length) continue;
+            if(board[row1][col1]=='M' || board[row1][col1]=='X')
+                num++;
+        }
+        return num;
+
+    }
+
+}
