@@ -1,0 +1,27 @@
+public int robotSim(int[] commands, int[][] obstacles) {
+        int direction=0,x=0,y=0;
+        int max=0;
+        int[][] Direction={{0,1},{1,0},{0,-1},{-1,0}};
+        Set<String> ob=new HashSet<String>();
+        for (int[] obstacle : obstacles) {
+            ob.add(obstacle[0]+","+obstacle[1]);
+        }
+        for (int com: commands) {
+            int next_x = 0, next_y = 0;
+            if (com >= 0) {
+                for (int i = 0; i < com; i++) {
+                    next_x = x + Direction[direction][0];
+                    next_y = y + Direction[direction][1];
+
+                    if (ob.contains(next_x + "," + next_y)) continue;
+                    x = next_x;
+                    y = next_y;
+                    max = Math.max(max, x * x + y * y);
+                }
+            }else{
+                direction=com==-1?(direction+1)%4:(direction+3)%4;
+            }
+        }
+        return max;
+
+    }
