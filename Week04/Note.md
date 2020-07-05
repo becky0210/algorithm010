@@ -14,4 +14,4 @@
 
     }
      
-  和作业里find-minimum-in-rotated-sorted-array那题一样，如果mid对应值 > right对应值，则在右半边找，否则在以mid为右边界的左半区域找。当left和right重合时，重合位置即为无序的地方
+  和作业里find-minimum-in-rotated-sorted-array那题一样，如果mid对应值 > right对应值，则以mid+1为左边界的右半区域找，否则在以mid为右边界的左半区域找。当left和right重合时，重合位置即为无序的地方
