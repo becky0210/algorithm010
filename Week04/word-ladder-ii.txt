@@ -1,0 +1,101 @@
+public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+
+        List<List<String>> res=new ArrayList<>();
+
+        if(!wordList.contains(endWord)){
+            return res;
+        }
+
+		//map的键是节点，值为邻居节点集
+        HashMap<String,ArrayList<String>> map=new HashMap<>();
+        bfs(beginWord,endWord,wordList,map);
+		//temp用于存当前路径
+        List<String> temp=new ArrayList<>();
+
+
+        temp.add(beginWord);
+        findLaddersHelper(beginWord,endWord,res,map,temp);
+        return res;
+    }
+
+	//遍历一个节点的所有邻居节点，在遍历的时候把邻居节点加入当前路径temp里，且作为beginWord，如果beginWword和endWword相等，就把当前路劲加入到结果集里
+    private void findLaddersHelper(String beginWord, String endWord, List<List<String>> res, HashMap<String, ArrayList<String>> map, List<String> temp) {
+
+        if(beginWord.equals(endWord)) {
+            res.add(new ArrayList<>(temp));
+            return;
+        }
+        ArrayList<String> strings = map.getOrDefault(beginWord,new ArrayList<>());
+        for (String string : strings) {
+            temp.add(string);// 处理当前路径，加入邻居节点
+            findLaddersHelper(string,endWord,res,map,temp);//下探
+            temp.remove(temp.size()-1);//恢复状态
+        }
+
+    }
+
+    private void bfs(String beginWord, String endWord, List<String> wordList, HashMap<String, ArrayList<String>> map) {
+        Set<String> beginSet=new HashSet<>();
+        beginSet.add(beginWord);
+        Set<String> endSet=new HashSet<>();
+        endSet.add(endWord);
+        Set<String>wordset=new HashSet<>(wordList);
+        bfsHelper(beginSet,endSet,wordset,true,map);
+    }
+
+	
+	
+    private boolean bfsHelper(Set<String> beginSet, Set<String> endSet, Set<String> wordset, boolean b, HashMap<String, ArrayList<String>> map) {
+        if(beginSet.isEmpty()) return false;
+		// 如果beginSet的大小>endSet的大小，让beginSet和endSet互换，方向取反
+        if(beginSet.size()>endSet.size()) 
+            return bfsHelper(endSet,beginSet,wordset,!b,map);
+		
+		//已经找过的beginSet和endSet从wordset里移除
+        wordset.removeAll(beginSet);
+        wordset.removeAll(endSet);
+
+        Set<String> temp=new HashSet<>();
+        boolean done=false;
+
+		
+		//遍历beginSet里的每个字符串，把字符串里的每个字符依次用a-z替换(遇到用过的字符直接跳过)，可以形成新的字符串
+        for (String s : beginSet) {
+            // for(int i=0;i<s.length();i++){
+
+            for(int i=0;i<s.length();i++){
+                char[] chars = s.toCharArray();
+                for(char ch='a';ch<='z';ch++){
+                    if(ch==chars[i]) continue;
+                    chars[i]=ch;
+                    String word=new String(chars);
+					
+					//如果方向为true，则方向为：原字符串->新字符串，s1=原字符串，s2=新字符串
+					//否则为：新字符串->原字符串，s1=新字符串，s2=原字符串
+                    String s1 = b ? s :word;
+                    String s2 = b ? word : s;
+
+					//list存放该方向中节点s1的邻居节点集
+                    ArrayList<String> list = map.containsKey(s1) ? map.get(s1) : new ArrayList<String>();
+
+					//如果endSet包含新字符串，把done置true，邻居节点集中加入s2，并把s1和s1对应的邻居节点集存在map里，s1作为键，邻居节点集作为值
+                    if(endSet.contains(word)){
+                        done=true;
+                        list.add(s2);
+                        map.put(s1,list);
+                    }
+					
+					//如果done=false，wordset里包含新字符串，把这个字符串存到一个新的结果集里，邻居节点集中加入s2，并把s1和s1对应的邻居节点集存在map里，s1作为键，邻居节点集作为值
+                    if(!done && wordset.contains(word)){
+                        temp.add(word);
+                        list.add(s2);
+                        map.put(s1,list);
+                    }
+                }
+            }
+
+        }
+		//默认新的结果集的大小>endSet大小,下探的时候改变方向，下探的结果和done中有一个为true则返回true，如果两个结果都为false，返回false
+        return (done || bfsHelper(endSet,temp,wordset,!b,map));
+
+    }
