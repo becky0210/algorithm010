@@ -1,0 +1,29 @@
+ public int numDecodings(String s) {
+        int res = 0;
+        char[] chars = s.toCharArray();
+        if(Character.getNumericValue(chars[0])==0) return 0;
+        int n=chars.length;
+
+        int [] dp=new int[n+1];
+        dp[0]=1;dp[1]=1;
+        for (int i=2;i<=n;i++) {
+           
+            if(Character.getNumericValue(chars[i-2])==1 || Character.getNumericValue(chars[i-2])==2 && Character.getNumericValue(chars[i-1])<=6)
+                dp[i]+=dp[i-2];
+            if(Character.getNumericValue(chars[i-1])!=0)
+                dp[i]+=dp[i-1];
+        }
+        return dp[n];
+    }
+
+子问题：类似爬楼梯，一次可以走一步也可以走两步
+
+状态数组：dp[n]
+
+dp方程：
+            if(Character.getNumericValue(chars[i-2])==1 || Character.getNumericValue(chars[i-2])==2 && Character.getNumericValue(chars[i-1])<=6)
+                dp[i]+=dp[i-2];
+            if(Character.getNumericValue(chars[i-1])!=0)
+                dp[i]+=dp[i-1];
+时间复杂度：O(n)
+空间复杂度：O(n)

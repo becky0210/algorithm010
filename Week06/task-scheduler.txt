@@ -1,0 +1,17 @@
+public int leastInterval(char[] tasks, int n) {
+       int[] cnt=new int[26];
+        for (char i :tasks) {
+            cnt[i-'A']++;
+        }
+        Arrays.sort(cnt);
+        int max=cnt[25]-1;
+        int idleslots=max*n;
+        for(int i=24;i>=0;i--){
+            idleslots-=Math.min(cnt[i],max);
+        }
+        return idleslots>0?tasks.length+idleslots:tasks.length;
+    }
+
+
+时间复杂度：O(nlogn)
+空间复杂度：O(n)
