@@ -20,8 +20,8 @@ public int longestValidParentheses(String s) {
 子问题：
 A、s[i]=='(': dp[i]=0
 B、s[i]==')':
-			1、s[i-1]=='(':dp[i]=dp[i-2]+2
-			2、s[i-1]==')':dp[i]=dp[i-1]+2+dp[i-1-dp[i-1]]
+	1、s[i-1]=='(':dp[i]=dp[i-2]+2
+	2、s[i-1]==')':dp[i]=dp[i-1]+2+dp[i-1-dp[i-1]]
 状态数组：dp[n]
 
 dp方程：
