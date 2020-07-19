@@ -1,0 +1,49 @@
+public String minWindow(String s, String t) {
+        
+        int[] window=new int[128];
+        int[] t_frequency=new int[128];
+        String res="";
+        for(int i=0;i<t.length();i++)
+            t_frequency[t.charAt(i)]++;
+        int left=0,right=0,count=0,minLen=s.length()+1;//count：window中包括的t中的字符数
+        
+        while(right<s.length()){
+            char c = s.charAt(right);
+            window[c]++;
+            if(t_frequency[c]>=window[c]){
+                count++;
+            } 
+            while(count==t.length()){
+                char c1 = s.charAt(left);
+                if( t_frequency[c1]>=window[c1]){
+                    count--;
+                }
+                if(right-left+1<minLen){
+                    minLen=right-left+1;
+                    res=s.substring(left,right+1);
+                }
+                window[c1]--;
+                left++;
+            }
+            right++;
+        }
+        
+        return res;
+        
+    }
+
+逻辑：
+用到了左右指针，左右指针之间的内容存在窗口数组window里。
+左指针右移：
+	当t字符串的所有字符都包括在window的时候，左指针右移。
+	更新当前最小字串长度minLen，把当前截到的字符串记录在res里。
+	窗口数组长度减小，如果左指针指向的字符出现在t的字数>=出现在window的次数，window中包括的t中的字符数count减1。
+	window中该字符的出现次数减1.
+右指针右移：
+	在右指针没有走到s的最后一个字符前，右指针右移。
+	如果右指针指向的字符出现在t中的次数>=出现在window的次数，window中包括的t中的字符数count加1。
+	window中该字符的出现次数加1.
+	
+	
+时间复杂度:O(n)
+空间复杂度:O(1)
