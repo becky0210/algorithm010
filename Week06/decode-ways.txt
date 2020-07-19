@@ -21,9 +21,9 @@
 状态数组：dp[n]
 
 dp方程：
-            if(Character.getNumericValue(chars[i-2])==1 || Character.getNumericValue(chars[i-2])==2 && Character.getNumericValue(chars[i-1])<=6)
-                dp[i]+=dp[i-2];
-            if(Character.getNumericValue(chars[i-1])!=0)
-                dp[i]+=dp[i-1];
+   if(Character.getNumericValue(chars[i-2])==1 || Character.getNumericValue(chars[i-2])==2 && Character.getNumericValue(chars[i-1])<=6)
+        dp[i]+=dp[i-2];
+   if(Character.getNumericValue(chars[i-1])!=0)
+        dp[i]+=dp[i-1];
 时间复杂度：O(n)
 空间复杂度：O(n)
