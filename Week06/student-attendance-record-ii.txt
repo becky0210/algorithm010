@@ -1,0 +1,129 @@
+===========================DP1
+ int M=1000000007;
+    public int checkRecord(int n) {
+
+        long[] f=new long[n<=5?6:n+1];
+        f[0]=1;f[1]=2;f[2]=4;f[3]=7;
+        for(int i=4;i<=n;i++){
+            f[i]=((2*f[i-1]%M)+(M-f[i-4]))%M;
+        }
+        long sum=f[n];
+
+        for(int i =1;i<=n;i++){
+            sum+=(f[i-1]*f[n-i])%M;
+        }
+        return (int)(sum%M);
+    }
+	
+状态数组：f[n]
+
+dp方程：
+1、无A的方案 f[i]=2*f[i-1]-f[i-4]
+2. 有A的方案 f[n]+f[i-1]*f[n-i]
+
+时间复杂度：O(n)
+空间复杂度；O(n)
+	
+==============================DP2
+
+public int checkRecord(int n) {
+   long[][][] dp=new long[n+1][2][3];
+        dp[1][0][1]=1;
+        dp[1][1][0]=1;
+        dp[1][0][0]=1;
+        for(int i=2;i<=n;i++){
+            //A.末尾加P
+            //OAOL=OAOL+OA1L+OA2L
+            dp[i][0][0]=(dp[i-1][0][0]+dp[i-1][0][1]+dp[i-1][0][2])%M;
+            //1A0L=1A0L+1A1L+1A2L
+            dp[i][1][0]=(dp[i-1][1][0]+dp[i-1][1][1]+dp[i-1][1][2])%M;
+
+
+            //B.末尾加L
+            //0A1L=OAOL
+            dp[i][0][1]=(dp[i-1][0][0])%M;
+            //1A1L=1A0L
+            dp[i][1][1]=(dp[i-1][1][0])%M;
+            //0A2L=OA1L
+            dp[i][0][2]=(dp[i-1][0][1])%M;
+            //1A2L=1A1L
+            dp[i][1][2]=(dp[i-1][1][1])%M;
+            
+            
+            //C.末尾加A
+            //1AOL=OAOL+OA1L+OA2L
+            dp[i][1][0]+=(dp[i-1][0][0]+dp[i-1][0][1]+dp[i-1][0][2])%M;
+        }
+        return (int)((dp[n][0][0]+dp[n][1][0]+dp[n][0][1]+dp[n][1][1]+dp[n][0][2]+dp[n][1][2])%M);
+    }
+	
+	
+状态数组：dp[n+1][2][3]
+
+dp方程：
+//A.末尾加P
+//OAOL=OAOL+OA1L+OA2L
+dp[i][0][0]=(dp[i-1][0][0]+dp[i-1][0][1]+dp[i-1][0][2])%M;
+//1A0L=1A0L+1A1L+1A2L
+dp[i][1][0]=(dp[i-1][1][0]+dp[i-1][1][1]+dp[i-1][1][2])%M;
+
+
+//B.末尾加L
+//0A1L=OAOL
+dp[i][0][1]=(dp[i-1][0][0])%M;
+//1A1L=1A0L
+dp[i][1][1]=(dp[i-1][1][0])%M;
+//0A2L=OA1L
+dp[i][0][2]=(dp[i-1][0][1])%M;
+//1A2L=1A1L
+dp[i][1][2]=(dp[i-1][1][1])%M;
+            
+            
+//C.末尾加A
+//1AOL=OAOL+OA1L+OA2L
+dp[i][1][0]+=(dp[i-1][0][0]+dp[i-1][0][1]+dp[i-1][0][2])%M;
+
+时间复杂度：O(n)
+空间复杂度：O(n)
+
+----------------------DP2 的优化
+
+int M=1000000007;
+    
+    public int checkRecord(int n) {
+        // long dp01=1,dp10=1,dp00=1,dp02=0,dp11=1,dp12=0;
+        long dp00, dp01, dp02, dp10, dp11, dp12;
+        dp00 = dp01 = dp10 = 1;
+        dp11 = dp02 = dp12 = 0;
+        for(int i=2;i<=n;i++){
+            long tmp01=dp01,tmp10=dp10,tmp00=dp00,tmp02=dp02,tmp11=dp11,tmp12=dp12;
+            //A.末尾加P
+            //OAOL=OAOL+OA1L+OA2L
+            dp00=(tmp00+tmp01+tmp02)%M;
+			
+            //1A0L=1A0L+1A1L+1A2L
+            dp10=(tmp10+tmp11+tmp12)%M;
+
+            //B.末尾加L
+            //0A1L=OAOL
+            dp01=tmp00%M;
+			
+            //1A1L=1A0L
+            dp11=tmp10%M;
+			
+            //0A2L=OA1L
+            dp02=tmp01%M;
+			
+            //1A2L=1A1L
+            dp12=tmp11%M;
+
+            //C.末尾加A
+            //1AOL=OAOL+OA1L+OA2L
+            dp10+=(tmp00+tmp01+tmp02)%M;
+        }
+
+        return (int)((dp00+dp01+dp02+dp10+dp11+dp12)%M);
+    }
+	
+时间复杂度：O(n)
+空间复杂度：O(1)
