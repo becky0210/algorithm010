@@ -1,0 +1,56 @@
+class Solution {
+
+List<List<String>> res=new ArrayList<>();
+    boolean[] col;
+    boolean[] dia1;
+    boolean[] dia2;
+    public List<List<String>> solveNQueens(int n) {
+        col=new boolean[n];
+        dia1=new boolean[2*n-1];
+        dia2=new boolean[2*n-1];
+        putQueen(n,0,new ArrayList<Integer>());
+        return res;
+
+    }
+
+    private void putQueen(int n, int i, ArrayList<Integer> integers) {
+        if(i==n)
+            res.add(changeBoard(n,integers));
+
+
+        for(int j=0;j<n;j++){
+            if(!col[j] && !dia1[i+j] && !dia2[i-j+n-1]){
+
+                    integers.add(j);
+
+                    col[j]=true;
+                    dia1[i+j]=true;
+                    dia2[i-j+n-1]=true;
+
+                    putQueen(n,i+1,integers);
+
+                    col[j]=false;
+                    dia1[i+j]=false;
+                    dia2[i-j+n-1]=false;
+
+                    integers.remove(integers.size()-1);
+
+
+
+
+            }
+        }
+    }
+
+    private List<String> changeBoard(int n, ArrayList<Integer> integers) {
+        List<String> tmp=new ArrayList<>();
+        for(int i=0;i<n;i++){
+            char[] chars=new char[n];
+            Arrays.fill(chars,'.');
+            chars[integers.get(i)]='Q';
+            tmp.add(String.valueOf(chars));
+        }
+        return tmp;
+    }
+
+}

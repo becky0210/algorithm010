@@ -1,0 +1,40 @@
+class Solution {
+
+public void solveSudoku(char[][] board) {
+        int n = board.length;
+        int m = board[0].length;
+        solve(n,m,board);
+    }
+
+    private boolean solve(int n, int m, char[][] board) {
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(board[i][j]=='.'){
+                    for(char c='1';c<='9';c++){
+                        if(isValid(i,j,board,n,c)){
+                            board[i][j]=c;
+                            
+                            if(solve(n,m,board))
+                                return true;
+                            
+                            board[i][j]='.';
+                        }
+                    }
+                    return false;
+                }
+                
+            }
+        }
+        return true;
+    }
+
+    private boolean isValid(int i, int j, char[][] board, int n, char c) {
+        for(int cnt=0;cnt<n;cnt++){
+            if(board[i][cnt]==c) return false;
+            if(board[cnt][j]==c) return false;
+            if(board[i/3*3+cnt/3][j/3*3+cnt%3]==c) return false;
+        }
+        return true;
+    }
+
+}
