@@ -76,5 +76,6 @@ class Solution {
     }
 }
 
+
 Time complexity：O(m*n), m=row count in board，n=column count in board. Worst case is O(m*n*4^k) when it iterates all characters for a certain string(assuming k is the total number) in array words.
 Space complexity：O(mn+26*X), X=character count for each string in array words
