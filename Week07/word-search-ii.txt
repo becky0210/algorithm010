@@ -1,0 +1,80 @@
+class Solution {
+    HashSet<String> res=new HashSet<>();
+    public List<String> findWords(char[][] board, String[] words) {
+        WordTrie trie=new WordTrie();
+       // store root position in Trie
+        Trie root = trie.root;
+        for(String word:words){
+            trie.insert(word);
+        }
+
+        int m = board.length;
+        int n = board[0].length;
+        boolean[][] visited=new boolean[m][n];
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                find(i,j,visited,board,m,n,root);
+            }
+        }
+        return new LinkedList<>(res);
+
+
+    }
+
+    private void find(int i, int j, boolean[][] visited, char[][] board, int m, int n, Trie trie) {
+        //terminator
+        if(i<0 || i>=m || j<0 || j>=n || visited[i][j])
+            return;
+        trie = trie.next[board[i][j] - 'a'];
+        if(trie==null){
+            return;
+        }
+        if(trie.isEnd){
+            res.add(trie.val);
+        }
+		
+       //current level
+        visited[i][j]=true;
+
+       // drill down
+        int[] row={-1,0,1,0};
+        int[] col={0,-1,0,1};
+        for(int tmp=0;tmp<4;tmp++){
+            find(i+row[tmp],j+col[tmp],visited,board,m,n,trie);
+        }
+		
+       //revert status
+        visited[i][j]=false;
+
+    }
+
+
+    public class WordTrie{
+        Trie root=new Trie();
+
+        public void insert(String word){
+            Trie curr=root;
+            char[] chars = word.toCharArray();
+            for (char aChar : chars) {
+                if(curr.next[aChar - 'a']==null) {
+                    curr.next[aChar - 'a'] = new Trie();
+                    curr = curr.next[aChar - 'a'];
+                }else
+                    curr=curr.next[aChar - 'a'];
+            }
+            curr.isEnd=true;
+            curr.val=word;
+        }
+
+
+    }
+    public class Trie{
+        boolean isEnd=false;
+        Trie[] next=new Trie[26];
+        String val;
+        public Trie(){}
+    }
+}
+
+Time complexity：O(m*n), m=row count in board，n=column count in board. Worst case is O(m*n*4^k) when it iterates all characters for a certain string in array words.
+Space complexity：O(mn+26*X), X=character count for each string in array words
