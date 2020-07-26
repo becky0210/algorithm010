@@ -1,0 +1,47 @@
+class Solution {
+public int minMutation(String start, String end, String[] bank) {
+        
+        HashSet<String> bankSet=new HashSet<>();
+        for (String s : bank) {
+            bankSet.add(s);
+        }
+        if(!bankSet.contains(end)) return -1;
+        HashSet<String> startSet=new HashSet<>();
+        HashSet<String> endSet=new HashSet<>();
+        HashSet<String> visited=new HashSet<>();
+        startSet.add(start);
+        endSet.add(end);
+        int len=0;
+        while(!startSet.isEmpty() && !endSet.isEmpty()){
+            if(startSet.size()>endSet.size()){
+                HashSet<String> set=startSet;
+                startSet=endSet;
+                endSet=set;
+            }
+            
+            HashSet<String> tmp=new HashSet<>();
+            for (String s : startSet) {
+                char[] chars = s.toCharArray();
+                for(int i=0;i<chars.length;i++){
+                    for(char c='A';c<='Z';c++){
+                        char old=chars[i];
+                        chars[i]=c;
+                        String target = new String(chars);
+                        if(endSet.contains(target))
+                            return len+1;
+                        if(!visited.contains(target) && bankSet.contains(target)){
+                            visited.add(target);
+                            tmp.add(target);
+                            
+                        }
+                        chars[i]=old;
+                    }
+                }
+            }
+            startSet=tmp;
+            len++;
+        }
+        return -1;
+    }
+
+}
