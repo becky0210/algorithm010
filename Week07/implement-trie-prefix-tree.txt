@@ -1,0 +1,48 @@
+class Trie {
+
+    boolean isEnd;
+    Trie[] next;
+    /** Initialize your data structure here. */
+    public Trie() {
+        isEnd=false;
+        next=new Trie[26];
+    }
+
+    /** Inserts a word into the trie. */
+    public void insert(String word) {
+        char[] chars = word.toCharArray();
+        Trie curr = this;
+        for (int i = 0; i < chars.length; i++) {
+            int i1 = chars[i] - 'a';
+            if (curr.next[i1] == null) {
+                curr.next[i1] = new Trie();
+            }
+            curr = curr.next[i1];
+        }
+        curr.isEnd = true;
+    }
+
+    /** Returns if the word is in the trie. */
+    public boolean search(String word) {
+         Trie node=searchPrefix(word) ;
+         return (node!=null) && node.isEnd;
+    }
+
+    private Trie searchPrefix(String word) {
+        char[] chars = word.toCharArray();
+ 
+        Trie curr=this;
+        for(int i=0;i<chars.length;i++){
+            int i1 = chars[i] - 'a';
+             curr= curr.next[i1];
+            if(curr==null)
+                return null;
+        }
+        return curr;
+    }
+
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    public boolean startsWith(String prefix) {
+        return (searchPrefix(prefix)!=null);
+    }
+}

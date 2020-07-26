@@ -1,0 +1,84 @@
+ public class UnionFind{
+        int count;
+        int[] parent;
+        int[] size;
+        public UnionFind(char[][] grid){
+            count=0; //record island counts
+            int n=grid.length;
+            int m = grid[0].length;
+            size=new int[n*m];
+            parent=new int[n*m];
+            for(int i=0;i<n;i++){
+                for(int j=0;j<m;j++) {
+                    size[i*m+j]=1;// record weight for each island
+                    if (grid[i][j] == '1') {
+                        parent[i * m + j] = i*m+j; //record parent for each island
+                        count++;
+                    } else {
+                        parent[i * m + j] = 0;
+
+                    }
+                }
+            }
+        }
+        public int find(int p) {
+            while (p != parent[p]) {
+                parent[p] = parent[parent[p]];
+                p=parent[p];
+               
+            }
+            return p;
+        }
+        public void union(int p,int q){
+            int rootp = find(p);
+            int rootq = find(q);
+            if(rootp==rootq) return;
+			// if p and q dont have same parent, put them into one group
+			// when p's weight > q's weight, let p be q's parent, and add q's weight into p and vice versa.
+            if(size[rootp]>size[rootq]){
+                parent[rootq]=rootp;
+                size[rootp]+=size[rootq];
+            }else{
+                parent[rootp]=rootq;
+                size[rootq]+=size[rootp];
+            }
+            count--;//  island counts is reduced by 1
+        }
+        public int count(){
+            return count;
+        }
+    }
+    public int numIslands(char[][] grid) {
+        if(grid.length==0) return 0;
+        int n = grid.length;
+        int m=grid[0].length;
+        UnionFind uf=new UnionFind(grid);
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++) {
+                if (grid[i][j] == '1') {
+                    grid[i][j]='0';
+					// make sure row index and col index are not out of bound before union operation.
+					//union from four direcitons---left+up+down+right
+                    if (i - 1 >= 0 && grid[i - 1][j] == '1') {
+                        uf.union(i * m + j, (i - 1) * m + j);
+                    }
+                    if (i + 1 < n && grid[i + 1][j] == '1') {
+                        uf.union(i * m + j, (i + 1) * m + j);
+                    }
+                    if (j - 1 >= 0 && grid[i][j - 1] == '1') {
+                        uf.union(i * m + j, i * m + j-1);
+                    }
+                    if (j + 1 < m && grid[i][j + 1] == '1') {
+                        uf.union(i * m + j, i * m + j+1);
+                    }
+
+                }
+            }
+        }
+        return uf.count();
+
+    }
+	
+	
+time complexity:O(nm*X),n=row counts,m=coloumn counts,X=average iterations in find method
+space complexity: O(mn)

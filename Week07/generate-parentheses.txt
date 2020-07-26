@@ -1,0 +1,30 @@
+class Solution {
+     
+   List<String> res=new ArrayList<>();
+    public List<String> generateParenthesis(int n) {
+        helper(0,0,n,"");
+        return res;
+    }
+
+    private void helper(int i, int i1, int n,String  str) {
+
+        if(( i==n) && (i1==n)){
+                res.add(str);
+                return;
+        }
+ 
+        
+        if(i<i1) return;
+
+        if(i<=n) {
+            helper(i + 1, i1,  n,str+"(");
+        }
+        if(i1<i && i<=n) {
+            helper(i, i1 + 1, n,str+")");
+        }
+    }
+}
+
+Time complexity can be much better than that without pruning. 
+time complexity is O(2^(2*n)) without pruning.
+space complexity: O(n)
