@@ -1,0 +1,38 @@
+class Solution {
+     List<List<String>> res=new ArrayList<>();
+    int size;
+    public List<List<String>> solveNQueens(int n) {
+        size= (1 << n) -1;
+        solver(0,0,0,new ArrayList<Integer>(),n);
+        return  res;
+    }
+
+    private void solver(int row, int pie, int na, ArrayList<Integer> tmp,int n) {
+        if(row==size){
+            res.add(transform(tmp,n));
+        }
+
+        int bits= ~(row | pie | na) & size;
+        while(bits!=0){
+            int p=bits & (-bits);
+            int pos = Integer.toBinaryString(p).length();
+            tmp.add(n-pos);
+            bits=bits & (bits-1);
+            solver(row | p ,(pie | p ) << 1,(na | p) >> 1,tmp,n);
+
+             tmp.remove(tmp.size()-1);
+             
+        }
+    }
+
+    private List<String> transform(ArrayList<Integer> tmp,int n) {
+        List<String> res=new ArrayList<>();
+        for(int i=0;i<n;i++){
+            char[] chars=new char[n];
+            Arrays.fill(chars,'.');
+            chars[tmp.get(i)]='Q';
+            res.add(new String(chars));
+        }
+        return res;
+    }
+}

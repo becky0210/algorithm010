@@ -1,0 +1,107 @@
+class LRUCache {
+ class DlinkedNode{
+            int key,value;
+            DlinkedNode prev,next;
+            DlinkedNode(){};
+            DlinkedNode(int key,int value){
+                this.key=key;
+                this.value=value;
+            }
+        }
+        int size,capacity;
+        Map<Integer,DlinkedNode> cache=new HashMap<>();
+        DlinkedNode head,tail;
+
+        public LRUCache(int capacity) {
+                this.size=0;
+                this.capacity=capacity;
+                head = new DlinkedNode();
+                tail = new DlinkedNode();
+                head.next=tail;
+                tail.prev=head;
+        }
+
+        public int get(int key) {
+            DlinkedNode node = cache.get(key);
+            if(node==null) return -1;
+            movetoHead(node);
+            return node.value;
+        }
+
+        private void movetoHead(DlinkedNode node) {
+            removeNode(node);
+            addtoHead(node);
+        }
+
+        private void addtoHead(DlinkedNode node) {
+                node.prev=head;
+                node.next=head.next;
+                head.next.prev=node;
+                head.next=node;
+        }
+        
+
+        private void removeNode(DlinkedNode node) {
+            node.next.prev=node.prev;
+            node.prev.next=node.next;
+        }
+
+        public void put(int key, int value) {
+            DlinkedNode node = cache.get(key);
+            if(node==null){
+                DlinkedNode newnode = new DlinkedNode(key, value);
+                cache.put(key,newnode);
+                addtoHead(newnode);
+                size++;
+                if(size>capacity){
+                    removeTail();
+                    size--;
+                }
+            }else{
+                node.value=value;
+                movetoHead(node);
+            }
+            
+        }
+
+        private void removeTail() {
+            DlinkedNode last = tail.prev;
+            removeNode(last);
+            cache.remove(last.key);
+        }
+}
+
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
+ 
+ 
+ 
+ ================================================
+ 
+ 
+   class LRUCache extends LinkedHashMap<Integer,Integer> {
+        private  int capacity;
+        public LRUCache(int capacity) {
+            super(capacity,0.75f,true);
+            this.capacity=capacity;
+        }
+
+        public int get(int key) {
+            return  super.getOrDefault(key,-1);
+        }
+
+        public void put(int key, int value) {
+                super.put(key,value);
+        }
+
+        @Override
+        public boolean removeEldestEntry(Map.Entry<Integer,Integer> eldest){
+                return size()>capacity;
+        }
+
+}
