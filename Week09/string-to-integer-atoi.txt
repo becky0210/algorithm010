@@ -1,0 +1,25 @@
+public int myAtoi(String str) {
+        int n = str.length();
+        if(n==0) return 0;
+        int index=0,sign=1,total=0;
+        while(index<n && str.charAt(index) ==' ') index++;
+        if(index<n){
+            if(str.charAt(index) =='-' || str.charAt(index)=='+' ) {
+            sign=str.charAt(index)=='-'?-1:1;
+            index++;
+        }
+        }
+        while(index<n) {
+            char c = str.charAt(index);
+            if (c + 0 >= 48 && c + 0 <= 57) {
+                int numericValue = Character.getNumericValue(c);
+                if (Integer.MAX_VALUE / 10 < total || (Integer.MAX_VALUE / 10 == total && Integer.MAX_VALUE % 10 < numericValue))
+                    return sign == 1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+                total = total * 10 + numericValue;
+            }else{
+                break;
+            }
+            index++;
+        }
+        return sign*total;
+    }
