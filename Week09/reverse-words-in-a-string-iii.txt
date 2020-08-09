@@ -1,0 +1,18 @@
+public String reverseWords(String s) {
+        char[] chars = s.toCharArray();
+        int n = chars.length;
+        int start=0,end=0;
+        while(start<n){
+            while(end<n && chars[end]!=' ')end++;
+            int localstart=start,localend=end-1;
+            while(localend<n && localstart<localend){
+                char ch=chars[localstart];
+                chars[localstart++]=chars[localend];
+                chars[localend--]=ch;
+            }
+            end++;
+            start=end;
+        }
+        return String.valueOf(chars);
+
+    }
