@@ -1,0 +1,16 @@
+public String reverseOnlyLetters(String S) {
+        char[] chars = S.toCharArray();
+        int n = chars.length;
+        int start=0,end=n-1;
+        while(start<end){
+            if((chars[start]-0<=90 && chars[start]-0>=65 || chars[start]-0<=122 && chars[start]-0>=97) && (chars[end]-0<=90 && chars[end]-0>=65 || chars[end]-0<=122 && chars[end]-0>=97 )) {
+                char c = chars[start];
+                chars[start++]=chars[end];
+                chars[end--]=c;
+            }else if(!(chars[start]-0<=90 && chars[start]-0>=65 || chars[start]-0<=122 && chars[start]-0>=97) )
+                start++;
+            else if(!(chars[end]-0<=122 && chars[end]-0>=97 || chars[end]-0<=90 && chars[end]-0>=65 ))
+                end--;
+        }
+        return String.valueOf(chars);
+    }
