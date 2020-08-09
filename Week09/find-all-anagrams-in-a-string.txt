@@ -1,0 +1,32 @@
+public List<Integer> findAnagrams(String s, String t) {
+        List<Integer> res=new ArrayList<>();
+        Map<Character,Integer> map=new HashMap<Character, Integer>();
+        int begin=0,end=0;
+        char[] chars = t.toCharArray();
+        for (char aChar : chars) {
+            map.put(aChar,map.getOrDefault(aChar,0)+1);
+            
+        }
+        int counter = map.size();
+        while(end<s.length()){
+            char c = s.charAt(end);
+            if(map.containsKey(c)) {
+                map.put(c, map.get(c) - 1);
+                if (map.get(c) == 0)
+                    counter--;
+            }
+            end++;
+            while(counter==0){
+                char cbegin = s.charAt(begin);
+                if(map.containsKey(cbegin)) {
+                    map.put(cbegin, map.get(cbegin) + 1);
+                    if (map.get(cbegin) > 0)
+                        counter++;
+                }
+                if(end-begin==t.length())
+                    res.add(begin);
+                begin++;
+                }
+        }
+        return res;
+    }
