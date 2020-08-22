@@ -114,24 +114,24 @@
 	</tr >
 	<tr >
 	    <td rowspan="9"><ul>def DFS(self,tree):</ul>
-                        <ul>&nbsp&nbspif tree.root is None:</ul>
-                        <ul>&nbsp&nbsp&nbsp&nbspreturn []</ul>
-                        <ul>&nbsp&nbspvisited, stack =[] ,[tree.root]</ul>
-                        <ul>&nbsp&nbspwhile stack:</ul>
-                            <ul>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp node=stack.pop()</ul>
-                            <ul> &nbsp&nbsp&nbsp&nbsp&nbsp&nbspvisited.add(node)</ul>
-                            <ul>&nbsp&nbsp&nbsp&nbsp&nbsp&nbspprocess(node)</ul>
-                            <ul>&nbsp&nbsp&nbsp&nbsp&nbsp&nbspnodes=genearate_related_nodes(node)</ul>
-                            <ul>&nbsp&nbsp&nbsp&nbsp&nbsp&nbspstack.push(nodes)</ul>
-                            <ul>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp...</ul></td>
+                        <ul>&nbsp&nbsp&nbsp&nbspif tree.root is None:</ul>
+                        <ul>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspreturn []</ul>
+                        <ul>&nbsp&nbsp&nbsp&nbspvisited, stack =[] ,[tree.root]</ul>
+                        <ul>&nbsp&nbsp&nbsp&nbspwhile stack:</ul>
+                            <ul>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp node=stack.pop()</ul>
+                            <ul> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspvisited.add(node)</ul>
+                            <ul>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspprocess(node)</ul>
+                            <ul>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspnodes=genearate_related_nodes(node)</ul>
+                            <ul>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspstack.push(nodes)</ul>
+                            <ul>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp...</ul></td>
 	    <td rowspan="9"><ul>visited = set()</ul>
       <ul>def dfs(node,visited):</ul>
           <ul>&nbsp&nbspvisited.add(node)</ul>
           <ul>&nbsp&nbsp#process current node here</ul>
           <ul>&nbsp&nbsp...</ul>
          <ul>&nbsp&nbspfor next_node in node.children():</ul>
-              <ul>&nbsp&nbsp&nbsp&nbsp&nbsp&nbspif not next_node in visited:</ul>
-                  <ul>&nbsp&nbsp&nbsp&nbsp&nbsp&nbspdfs(next_node,visited)</ul></td>
+              <ul>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspif not next_node in visited:</ul>
+                  <ul>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspdfs(next_node,visited)</ul></td>
    </tr>
 </table>
       
@@ -142,18 +142,17 @@
 广度优先搜索 - 非递归写法
 
 
-	def BFS(graph,start,end):
-    	    queue = []
-    	    queue.append([start])
-    	    visited.add(start)
-
-    	    while queue:
-        	node = queue.pop()
-        	visited.add(node)
-        	process(node)
-        	nodes = generate_realated_nodes(node)
-        	queue.push(nodes)
-    		...
+		def BFS(graph,start,end):
+				queue = []
+    	    		queue.append([start])
+    	    		visited.add(start)
+    			while queue:
+        				node = queue.pop()
+        				visited.add(node)
+        				process(node)
+        				nodes = generate_realated_nodes(node)
+        				queue.push(nodes)
+    					...
 
 
 
